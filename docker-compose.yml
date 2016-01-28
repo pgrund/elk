@@ -1,0 +1,43 @@
+# logspout:
+#   image: gliderlabs/logspout
+#   volumes:
+#     - /var/run/docker.sock:/tmp/docker.sock
+#   links:
+#     - logstash
+#   ports:
+#     - 8000:8000
+logstash:
+  image: logstash
+  volumes:
+    - ./conf/:/config-dir/
+#    - ./data/qa-proxy/:/logs/
+    - ./patterns/:/opt/logstash/patterns/
+  ports:
+    - "5000:5000"
+    - "5000:5000/udp"
+  environment:
+    LOGSPOUT: ignore
+  links:
+    - elasticsearch
+  command:  logstash -f /config-dir/*.conf
+elasticsearch:
+  image: elasticsearch
+  ports:
+    - 9200:9200
+  environment:
+    LOGSPOUT: ignore
+kibana:
+  image: kibana
+  links:
+    - elasticsearch
+  ports:
+    - 5601:5601
+  environment:
+    LOGSPOUT: "ignore"
+filebeat:
+  image: prima/filebeat
+  links:
+    - logstash:logstash
+  volumes:
+    - ./filebeat/filebeat-apache.yml:/etc/filebeat/filebeat.yml
+#    - /c/Users/grund/tmp/:/var/log/apache2/

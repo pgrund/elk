@@ -1,0 +1,7 @@
+input {
+  file {
+    path => "/logs/*-lynis-report.dat"
+    type => "lynis"  # a type to identify those logs (will need this later)
+    start_position => beginning
+  }
+}

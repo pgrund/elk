@@ -1,0 +1,3 @@
+APACHE_ERROR_TIME %{DAY} %{MONTH} %{MONTHDAY} %{TIME} %{YEAR}
+APACHE_ERROR_LOG \[%{APACHE_ERROR_TIME:timestamp}\] \[%{WORD:module}:%{LOGLEVEL:loglevel}\] \[pid %{NUMBER:pid}:tid %{NUMBER:tid}\] (?:\[client %{IPORHOST:clientip}:%{POSINT:port}\] ){0,1}%{GREEDYDATA:message}
+APACHE_COMBINED_VHOST_LOG %{HOSTNAME:vhost}:%{NUMBER:port} %{COMBINEDAPACHELOG}
