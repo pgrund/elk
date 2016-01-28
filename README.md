@@ -1,5 +1,3 @@
-
-
 # ELK setup
 
 I use this repository to track my ..
