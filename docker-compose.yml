@@ -1,11 +1,3 @@
-# logspout:
-#   image: gliderlabs/logspout
-#   volumes:
-#     - /var/run/docker.sock:/tmp/docker.sock
-#   links:
-#     - logstash
-#   ports:
-#     - 8000:8000
 logstash:
   image: logstash
   volumes:
@@ -19,6 +11,7 @@ logstash:
     LOGSPOUT: ignore
   links:
     - elasticsearch
+    - redis
   command:  logstash -f /config-dir/*.conf
 elasticsearch:
   image: elasticsearch
@@ -34,17 +27,10 @@ kibana:
     - 5601:5601
   environment:
     LOGSPOUT: "ignore"
-# filebeat:
-#   image: prima/filebeat
-#   links:
-#     - logstash:logstash
-#   volumes:
-#     - ./filebeat/filebeat-apache.yml:/etc/filebeat/filebeat.yml
-# #    - /c/Users/grund/tmp/:/var/log/apache2/
 redis:
-#   image: redis
-#   ports:
-#     - 6379:6379
+  image: redis
+  ports:
+    - 6379:6379
 # logspout:
 #   image: rtoma/logspout-redis-logstash
 #   command: 'redis://redis'
@@ -58,3 +44,10 @@ redis:
 #     - /var/run/docker.sock:/var/run/docker.sock:ro
 #   links:
 #     - redis
+# filebeat:
+#   image: prima/filebeat
+#   links:
+#     - logstash
+#   volumes:
+#     - ./filebeat/filebeat-apache.yml:/etc/filebeat/filebeat.yml
+# #    - /c/Users/grund/tmp/:/var/log/apache2/
