@@ -1,0 +1,1 @@
+LYNIS_TEST [A-Z]{4}-\d{4}

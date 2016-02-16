@@ -13,8 +13,8 @@ logstash:
 #    - ./data/qa-proxy/:/logs/
     - ./patterns/:/opt/logstash/patterns/
   ports:
-    - "5000:5000"
-    - "5000:5000/udp"
+    - 5044:5044
+    - 5044:5044/udp
   environment:
     LOGSPOUT: ignore
   links:
@@ -34,10 +34,27 @@ kibana:
     - 5601:5601
   environment:
     LOGSPOUT: "ignore"
-filebeat:
-  image: prima/filebeat
-  links:
-    - logstash:logstash
-  volumes:
-    - ./filebeat/filebeat-apache.yml:/etc/filebeat/filebeat.yml
-#    - /c/Users/grund/tmp/:/var/log/apache2/
+# filebeat:
+#   image: prima/filebeat
+#   links:
+#     - logstash:logstash
+#   volumes:
+#     - ./filebeat/filebeat-apache.yml:/etc/filebeat/filebeat.yml
+# #    - /c/Users/grund/tmp/:/var/log/apache2/
+redis:
+#   image: redis
+#   ports:
+#     - 6379:6379
+# logspout:
+#   image: rtoma/logspout-redis-logstash
+#   command: 'redis://redis'
+#   environment:
+#     - DEBUG=true
+#     - REDIS_KEY=logstash
+#     - REDIS_DOCKER_HOST=$HOSTNAME
+#     - REDIS_LOGSTASH_TYPE=docker
+#     - LOGSPOUT=ignore
+#   volumes:
+#     - /var/run/docker.sock:/var/run/docker.sock:ro
+#   links:
+#     - redis

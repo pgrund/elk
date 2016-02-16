@@ -1,3 +1,5 @@
+COMMONAPACHELOG %{IPORHOST:clientip} %{USER:ident} %{USER:auth} \[%{HTTPDATE:timestamp}\] "(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})" %{NUMBER:response} (?:%{NUMBER:bytes}|-)
+COMBINEDAPACHELOG %{COMMONAPACHELOG} %{QS:referrer} %{QS:agent}
 APACHE_ERROR_TIME %{DAY} %{MONTH} %{MONTHDAY} %{TIME} %{YEAR}
-APACHE_ERROR_LOG \[%{APACHE_ERROR_TIME:timestamp}\] \[%{WORD:module}:%{LOGLEVEL:loglevel}\] \[pid %{NUMBER:pid}:tid %{NUMBER:tid}\] (?:\[client %{IPORHOST:clientip}:%{POSINT:port}\] ){0,1}%{GREEDYDATA:message}
-APACHE_COMBINED_VHOST_LOG %{HOSTNAME:vhost}:%{NUMBER:port} %{COMBINEDAPACHELOG}
+APACHE_ERROR_LOG \[%{APACHE_ERROR_TIME:timestamp}\]%{SPACE}\[(?:%{WORD:module}:){0,1}%{LOGLEVEL:loglevel}\]%{SPACE}(?:\[pid %{NUMBER:pid}:tid %{NUMBER:tid}\]){0,1}%{SPACE}(?:\[client %{IPORHOST:clientip}(?::%{POSINT:port}){0,1}\]){0,1}%{GREEDYDATA:message}
+APACHE_COMBINED_VHOST_LOG (?:%{HOSTNAME:vhost}:%{NUMBER:port}){0,1}%{SPACE}%{COMBINEDAPACHELOG}
